@@ -1,19 +1,13 @@
 module.exports = function check(str, bracketsConfig) {
-    const patternGlued = [];
+    let brackets = bracketsConfig.map((item) => item.join(""));
+    let count = -1;
 
-    bracketsConfig.forEach(patternChunk => patternGlued.push(patternChunk.join('')));
-
-    const cutStr = (str) => {
-        let buffStr = str;
-
-        for(let i = 0; i < patternGlued.length; i++) {
-            buffStr = buffStr.replace(patternGlued[i], '');
+    for (let i = 0; i < brackets.length; i += 1) {
+        if (str.indexOf(brackets[i]) !== -1) {
+            str = str.replace(brackets[i], "");
+            i = count;
         }
-
-        return str === buffStr ? buffStr : cutStr(buffStr);
     }
 
-    const res = cutStr(str);
-
-    return res === '' ? true : false;
+    return str === '' ? true : false;
 }
